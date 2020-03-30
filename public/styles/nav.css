@@ -1,0 +1,331 @@
+.toggle, 
+.toggle2,
+[id^=drop] {
+	display: none;
+}
+
+/* Giving a background-color to the nav container. */
+#nav {
+  margin:0; 
+	padding: 0;
+	background-color: #141a2e;
+  
+  /*position: fixed;*/
+  top: 0;
+  width: 100%;
+  transition: 0.2s;
+  z-index: 10;
+}
+
+/* Since we'll have the "ul li" "float:left"
+ * we need to add a clear after the container. */
+
+#nav:after {
+	content:"";
+	display:table;
+	clear:both;
+}
+
+/* Removing padding, margin and "list-style" from the "ul",
+ * and adding "position:reltive" */
+#nav ul {
+	float: right;
+	padding:0;
+	margin:0;
+	list-style: none;
+	position: relative;
+  z-index: 10;
+	}
+	
+/* Positioning the navigation items inline */
+#nav ul li {
+	margin: 0px;
+	display:inline-block;
+	float: left;
+	background-color: #141a2e;
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none; 
+}
+
+#nohover-1234567982 {
+  background-color: transparent;
+}
+
+#nav ul li:hover {
+  /*background-color: #0e1524;*/
+  color: white;
+  border-radius: 1px;
+}
+#nav ul li:focus {
+  background-color: transparent;
+}
+
+/* Styling the links */
+#nav a {
+	display: block;
+  margin: 12px 3px 8px 4px;
+  padding: 11px 12px 9px 12px;
+	color: white;
+  font-weight: 600;
+	font-size: 14px;
+	text-decoration: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  font-family: Montserrat,sans-serif !important;  /*        */
+}
+
+#nav a:hover {
+  /*border-bottom: 2px solid white;*/
+  background-color: #0e1524;
+  border-radius: 8px;
+}
+
+
+/* nav ul li ul li:hover { background: white; } */
+/* color change on Hover */
+
+/* Hide Dropdowns by Default
+   and giving it a position of absolute */
+#nav ul ul {
+	display: none;
+	position: absolute; 
+	/* has to be the same number as the "line-height" of "nav a" */
+	top: 60px; 
+}
+
+
+
+/*  MOBILE MEDIA QUERY   */
+@media all and (max-width : 992px) {
+	#nav {
+    margin: 0px;
+	}
+  
+	.menu {
+    display: none;
+    width: 100%;
+    -webkit-box-shadow: 1px 6px 7px 2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 6px 7px 2px rgba(0,0,0,0.75);
+    box-shadow: 1px 6px 7px 2px rgba(0,0,0,0.75);
+    /*animation: navparentdropdownanimation 0.14s linear alternate;*/
+  }
+
+
+  .toggle2 {
+		display: block;
+		background-color: #141a2e;
+    margin: 15px;
+		color: white;
+    font-weight: 600;
+		text-decoration: none;
+    border: none;
+    text-align: right;
+    float: right;
+    cursor: pointer;
+  }
+  .toggle2 i {
+    font-size: 26px;
+  }
+
+
+	/* Display parent dropdown when clicked on Parent Lable */
+	[id^=drop]:checked + ul {
+		display: block;
+	}
+
+	/* Change menu item's width to 100% */
+	#nav ul li {
+    display: block;
+    width: 100%;
+  }
+
+  #nav ul ul .toggle2,
+	#nav ul ul a {
+		padding: 0 40px;
+	}
+
+	#nav ul ul ul a {
+		padding: 0 80px;
+	}
+  
+  
+  #nav a {
+    margin: 2px 5px;
+    /* display: inline-block; */
+    padding: 13px 15px 12px 12px;
+  }
+  
+	#nav a:hover,
+ 	#nav ul ul ul a {
+		background-color: #0e1524;
+	}
+  
+	#nav ul ul a,
+  #nav ul ul ul a {
+		padding:14px 20px;	
+		color:#FFF;
+		font-size:17px; 
+	}
+  
+  
+  .nav-dropdown-content {
+    margin-left: 10px !important;
+  }
+}
+
+
+@media all and (max-width: 330px) {
+	#nav ul li {
+		display:block;
+		width: 94%;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+@keyframes navparentdropdownanimation {
+   0% {
+      opacity: 0;
+      transform: translateY(-5px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+@keyframes thing {
+   0% {
+      opacity: 0;
+      transform: translateY(-10px);
+   }
+   100% {
+      transform: translateY(0);
+   }
+}
+
+.nav-dropdown-content {
+  padding: 6px 5px !important;
+  margin: 0px;
+  border-radius: 5px;
+  display: none;
+  position: absolute;
+  background-color: #0e1524;
+  min-width: 135px;
+  overflow: auto;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,2);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,2);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,2);
+  z-index: 1;
+  
+  animation: thing 0.2s linear alternate;
+  
+  margin-top: 60px;
+  margin-left: -100px;
+}
+
+.nav-dropdown-content a {
+  color: white;
+  background-color: #0e1524;
+  padding: 10px 10px !important;
+  margin: 0px !important;
+  border-radius: 5px;
+  text-decoration: none;
+  border-bottom: 0.1px solid transparent;
+  display: block;
+  font-size: 14.5px;
+  font-family: Montserrat,sans-serif !important;
+}
+
+
+.nav-dropdown-content a:hover {
+  background-color: #141a2e !important;
+}
+
+.nav-dropdown-content-line {
+  background-color: white; 
+  color: white;
+  width: 96%; 
+  height: 1.6px; 
+  margin: 0 auto; 
+  margin-top: 4px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+
+
+.showdd {display: block;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#headerramfishtitle {
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  background: none;
+  float: left;
+  margin: 13px 0px 0px 14px;
+}
+
+
+.loginbutton {
+  color: white;
+  font-weight: 600;
+	font-size: 14px;
+	text-decoration: none;  
+  font-family: Tahoma, Arial, sans-serif;
+  outline: 0 none;
+  cursor: pointer;
+  background: transparent;
+  float: left;
+  margin: 13px 12px 12px 12px;
+  padding: 7px 16px;
+  border: 2.9px solid white !important;
+  border-radius: 25px;
+  -webkit-transition-duration: 0.25s; 
+  transition-duration: 0.25s;
+}
+
+.loginbutton:hover {
+  color: black;
+  background-color: white;
+}
+
+
+#avatarDiv {
+  float: left;
+  display: none;
+  margin: 14px 13px 0px 12px;
+}
+
+#avatar {
+  border-radius: 25px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}

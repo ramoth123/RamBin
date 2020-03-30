@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RamBin - bin</title>
+  
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../styles/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../styles/nav.css"/>
+
+    <script type="text/javascript" src="../js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    
+    <style>
+      .ace-monokai .ace_gutter {
+        background-color: #0e1524;
+      }
+
+      .ace-monokai .ace_scroller {
+        background-color: #0e1524;
+      }
+
+      .ace-monokai .ace_gutter .ace_gutter-active-line {
+        background-color: #141a2e;
+        border-radius: 3px 0px 0px 3px;
+      }
+
+      .ace-monokai .ace_scroller .ace_active-line {
+        background-color: #141a2e;
+        border-radius: 0px 3px 3px 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("../a-partials/nav") %>
+    
+    <div>
+        <div id="container">
+          <div id="container-inner">
+            <div id="navbar">    
+              <select id="navbarSelect" class="navbar-select" name="lang" required>
+                <option value="">Language:</option>
+                <% for(let lang in languages) { %>
+                  <option value="<%- lang //languages[lang] %>"><%- lang %></option>
+                <% } %>
+              </select>
+
+              <button title="save (ctrl + s)" type="submit" class="navbar-save">Save</button>
+
+              <select id="navbarDeletetime" class="navbar-deletetime" name="time">
+                <option value="">Delete in:</option>
+                <option value="7200000">2 hour</option>
+                <option value="43200000">12 hour</option>
+                <option value="86400000">24 hour</option>
+              </select>
+
+              <textarea name="code" style="display: none;" class="hidden-object noselect" id="editor_textarea"></textarea>
+              
+              <!--  class="hidden-object noselect"  -->
+              <input style="display: none;" id="editor_lang" value="<%- lang %>">
+              <textarea style="display: none;" id="editor_textarea"><%- code %></textarea>
+              <select class="hidden-object">
+              </select>
+            </div>
+
+            <div id="editor"></div>
+          </div>
+        </div>
+    </div>
+    
+    
+    
+
+    <script>
+      function getLang() {
+        return document.getElementById("editor_lang").value
+      }
+
+      function getCode() {
+        return document.getElementById("editor_textarea").value
+      }
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.7/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.session.setMode("ace/mode/"+getLang());
+      editor.setShowPrintMargin(false);
+      editor.setReadOnly(false)
+      document.getElementById('editor').style.fontSize = "13px";
+      editor.getSession().setValue(getCode());      
+    </script>
+
+
+    
+    
+    
+    
+    
+    
+    <script>
+      $(document).ready(function() {
+        $('.navbar-select').select2();
+      });
+
+      $(document).ready(function() {
+        $('.navbar-deletetime').select2();
+      });
+    </script>
+    
+    
+    
+
+
+
+  </body>
+</html>

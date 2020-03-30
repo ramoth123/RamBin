@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RamBin - <%- id %></title>
+    <meta charset="UTF-8">
+    <meta name="og:title" content="RamBin - <%- id %>">
+    <meta name="og:description" content="Free and easy to use text/code sharing website.">
+    <meta name="og:image" content="https://cdn.glitch.com/045e1ac1-57e7-4746-b4af-5c1b03f70ea3%2Frambin_logo.png?v=1585486761013">
+    <meta name="theme-color" content="#1a223d">
+    <meta name="keywords" content="bin,pastebin,hastebin,ramoth,code">
+    <meta name="author" content="ramoth">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="icon" href="https://cdn.glitch.com/045e1ac1-57e7-4746-b4af-5c1b03f70ea3%2Frambin_logo_notext.png?v=1585488964033">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="styles/style.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/nav.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/snackbar.css"/>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    
+    <style>
+      .ace-monokai .ace_gutter {
+        background-color: #0e1524;
+      }
+
+      .ace-monokai .ace_scroller {
+        background-color: #0e1524;
+      }
+
+      .ace-monokai .ace_gutter .ace_gutter-active-line {
+        background-color: #141a2e;
+        border-radius: 3px 0px 0px 3px;
+      }
+
+      .ace-monokai .ace_scroller .ace_active-line {
+        background-color: #141a2e;
+        border-radius: 0px 3px 3px 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("../a-partials/nav") %>
+    
+    <div>
+        <div id="container">
+          <div id="container-inner">
+            <div id="navbar">            
+              <button style="cursor: not-allowed;" title="not yet made, owner of bin only" class="navbar-edit">Edit</button>
+              <button onclick="location.href = '/'" class="navbar-save">New</button>
+              <button onclick="copy()" style="margin-right: 6px;" class="navbar-save">Copy</button>
+
+              <!--  class="hidden-object noselect"  -->
+              <input style="display: none;" id="editor_lang" value="<%- lang %>">
+              <textarea style="display: none;" id="editor_textarea"><%- code %></textarea>
+              <select class="hidden-object">
+              </select>
+            </div>
+
+            <div id="editor"></div>
+          </div>
+        </div>
+    </div>
+    
+    
+    
+
+    <script>
+      function getLang() {
+        return document.getElementById("editor_lang").value
+      }
+
+      function getCode() {
+        return document.getElementById("editor_textarea").value
+      }
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.7/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.session.setMode("ace/mode/"+getLang());
+      editor.setShowPrintMargin(false);
+      editor.setReadOnly(true)
+      document.getElementById('editor').style.fontSize = "13px";
+      editor.getSession().setValue(getCode());      
+      
+      
+
+      
+      function copy() {
+        navigator.clipboard.writeText(getCode()).then(function() {
+          let snack = document.getElementById("snackbar");
+          snack.innerText = "Copied code to clipboard"
+          snack.style.backgroundColor = "#4CBB17"
+          snack.className = "show";
+          setTimeout(function(){ snack.className = snack.className.replace("show", ""); }, 3000);
+        }, function() {
+          let snack = document.getElementById("snackbar");
+          snack.innerText = "Failed copy of code to clipboard"
+          snack.style.backgroundColor = "#8B0000"
+          snack.className = "show";
+          setTimeout(function(){ snack.className = snack.className.replace("show", ""); }, 3000);
+        });
+      }
+    </script>
+
+
+    
+    
+
+    
+    <div id="snackbar" class="copy"></div>
+  </body>
+</html>
