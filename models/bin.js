@@ -6,10 +6,10 @@ const Schema = mongoose.Schema({
   "code": String,
   "code2": { type: String, required: false },
   "lang": String,
+  "lang2": { type: String, required: false },
   "createdAt": { type: Number, default: Date.now() }
   
 }, { collection: 'bins' });
 
-Schema.index({ createdAt: 1 }, { expireAfterSeconds: 3600 }); //NOT WORKING, DOESN'T DELETE THE DOCUMENT AFTER THE SELECTED EXPIREAFTERSECONDS, PLEASE DM ME AT ramoth#3515
 const model = mongoose.model('bins', Schema)
 module.exports = model

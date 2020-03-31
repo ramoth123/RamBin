@@ -1,1 +1,169 @@
-hello world
+<!DOCTYPE html>
+<html lang="en">
+  <head>    
+    <title>RamBin</title>
+    <meta charset="UTF-8">
+    <meta name="og:title" content="RamBin">
+    <meta name="og:description" content="Free and easy to use text/code sharing website.">
+    <meta name="og:image" content="https://cdn.glitch.com/045e1ac1-57e7-4746-b4af-5c1b03f70ea3%2Frambin_logo.png?v=1585486761013">
+    <meta name="theme-color" content="#1a223d">
+    <meta name="keywords" content="bin,pastebin,hastebin,ramoth,code">
+    <meta name="author" content="ramoth">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="icon" href="https://cdn.glitch.com/045e1ac1-57e7-4746-b4af-5c1b03f70ea3%2Frambin_logo_notext.png?v=1585488964033">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="styles/multibin.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/nav.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/snackbar.css"/>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+    <style>
+      .ace-monokai .ace_gutter {
+        background-color: #0e1524;
+      }
+
+      .ace-monokai .ace_scroller {
+        background-color: #0e1524;
+      }
+
+      .ace-monokai .ace_gutter .ace_gutter-active-line {
+        background-color: #141a2e;
+        border-radius: 3px 0px 0px 3px;
+      }
+
+      .ace-monokai .ace_scroller .ace_active-line {
+        background-color: #141a2e;
+        border-radius: 0px 3px 3px 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("../a-partials/nav") %>
+
+
+    <div>
+      <form action="/multi" id="binForm" method="POST">
+
+        <div id="container">
+          <div id="container-inner">
+            <div class="navbar" style="margin-bottom: -10.5px; text-align: center;">
+              <button title="save (ctrl + s)" type="submit" class="navbar-save">Save</button>
+            </div>
+            
+            <div class="navbar">
+              <select id="navbarSelect" class="navbar-select" name="lang2">
+                <option value="">Language:</option>
+                <% for(let lang in languages) { %>
+                  <option value="<%- lang %>"><%- lang %></option>
+                <% } %>
+              </select>
+
+              <select class="hidden-object"></select>
+
+              <textarea name="code2" style="display: none;" class="hidden-object noselect" id="editor_textarea"></textarea>
+            </div>
+
+            <div id="editor"></div>
+          </div>
+        </div>
+        
+        
+        
+        <div id="container2">
+          <div id="container-inner2">
+            <div class="navbar">
+              <select id="navbarSelect2" class="navbar-select2" name="lang">
+                <option value="">Language:</option>
+                <% for(let lang in languages) { %>
+                  <option value="<%- lang %>"><%- lang %></option>
+                <% } %>
+              </select>
+
+              <select class="hidden-object"></select>
+
+              <textarea name="code" style="display: none;" class="hidden-object noselect" id="editor_textarea2"></textarea>
+            </div>
+
+            <div id="editor2"></div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.7/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      //EDITOR 1
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.session.setMode("ace/mode/text");
+      $('#navbarSelect').on('change', function() {      
+        let lang = $(this).val() ? $(this).val().toLowerCase() : "text"
+        editor.setOption("mode", "ace/mode/"+lang)
+      });
+      editor.setShowPrintMargin(false);
+      editor.setReadOnly(false)
+      document.getElementById('editor').style.fontSize = "13px";
+      
+      
+      //EDITOR 2
+      var editor2 = ace.edit("editor2");
+      editor2.setTheme("ace/theme/monokai");
+      editor2.session.setMode("ace/mode/text");
+      $('#navbarSelect2').on('change', function() {      
+        let lang = $(this).val() ? $(this).val().toLowerCase() : "text"
+        editor2.setOption("mode", "ace/mode/"+lang)
+      });
+      editor2.setShowPrintMargin(false);
+      editor2.setReadOnly(false)
+      document.getElementById('editor').style.fontSize = "13px";
+      
+      document.getElementById("binForm").addEventListener('submit', async (e) => {
+        let code = editor.getSession().getValue();      
+        let code2 = editor2.getSession().getValue();     
+        document.getElementById("editor_textarea").value = code
+        document.getElementById("editor_textarea2").value = code2
+        
+        if(!code) {
+          let snack = document.getElementById("snackbar");
+          snack.innerText = "Please fill in some code"
+          snack.style.backgroundColor = "#8B0000"
+          snack.className = "show";
+          setTimeout(function(){ snack.className = snack.className.replace("show", ""); }, 3000);
+          e.returnValue = false; 
+        } else { e.returnValue = true; }
+        
+        if(!code2) {
+          let snack = document.getElementById("snackbar");
+          snack.innerText = "Please fill in some code"
+          snack.style.backgroundColor = "#8B0000"
+          snack.className = "show";
+          setTimeout(function(){ snack.className = snack.className.replace("show", ""); }, 3000);
+          e.returnValue = false; 
+        } else { e.returnValue = true; }
+      });
+    </script>
+
+
+
+    <script>
+      $(document).ready(function() {
+        $(".navbar-select").select2();
+      });
+      $(document).ready(function() {
+        $(".navbar-select2").select2();
+      });
+    </script>
+
+
+    
+    <div id="snackbar" class="copy"></div>
+  </body>
+</html>

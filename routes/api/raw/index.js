@@ -25,5 +25,5 @@ r.get("/:id", async (req, res) => {
 
 
 
-//export routes
+//export route(s)
 module.exports = r

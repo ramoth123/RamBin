@@ -61,13 +61,6 @@
 
               <button title="save (ctrl + s)" type="submit" class="navbar-save">Save</button>
 
-              <select id="navbarDeletetime" class="navbar-deletetime" name="time">
-                <option value="">Delete in:</option>
-                <option value="7200000">2 hours</option>
-                <option value="43200000">12 hours</option>
-                <option value="86400000">24 hours</option>
-              </select>
-
               <select class="hidden-object"></select>
 
               <textarea name="code" style="display: none;" class="hidden-object noselect" id="editor_textarea"></textarea>
@@ -173,10 +166,6 @@
 
       $(document).ready(function() {
         $('.navbar-select').select2();
-      });
-
-      $(document).ready(function() {
-        $('.navbar-deletetime').select2();
       });
     </script>
 

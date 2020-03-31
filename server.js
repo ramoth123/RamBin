@@ -1,13 +1,11 @@
 //require packages
 const express = require("express");
-const fetch = require("node-fetch")
-const cors = require("cors")
-const http = require("http")
+const session = require("express-session");
+const cors = require("cors");
+const http = require("http");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const xssFilter = require('x-xss-protection');
-const { HTMLEscape } = require("./functions/")
-const { languages } = require("./languages/")
 
 const mongoose = require("mongoose")
 mongoose.connect(`mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@ramfish-bot-mgpji.mongodb.net/rambin?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
@@ -19,6 +17,13 @@ const app = express();
 
 
 //middleware
+app.set('trust proxy', 1) //trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 app.use(cookieParser());
 app.use(cors())
 app.use(helmet.xssFilter());
@@ -33,12 +38,14 @@ app.set("view engine", "ejs");
 
 
 //routes
-app.use("/", require("./routes/base/"));;
+app.use("/", require("./routes/base/"));
+app.use("/about", require("./routes/about/"));
 app.use("/multi", require("./routes/multi/"));
 app.use("/raw", require("./routes/api/raw/"));
 app.use("/json", require("./routes/api/json/"));
+app.use("/me", require("./routes/user/"));
 app.use("/private", require("./routes/private/"));
-//app.use("/api/discord", require("./api/discord"));
+app.use("/api/discord", require("./api/discord.js"));
 
 
 

@@ -7,6 +7,8 @@ const bodyParser = require("body-parser"),
       urlencodedParser = bodyParser.urlencoded({ extended: false });
 const { randomID } = require("ramfish-api");
 const { languages } = require("../../languages/");
+const { HTMLEscape, userAuthentication, sendUserInfo } = require("../../functions/")
+
 
 
 //home
@@ -18,13 +20,10 @@ r.get("/", (req, res) => {
 //bin create
 r.post('/', urlencodedParser, async (req, res) => {
   let id = randomID({ length: 12, input: "random" }).toLowerCase()
-  let code = req.body.code;
-  let lang = req.body.lang;
-  let time = req.body.time;
+  let { code, lang } = req.body
 
   //post middleware
   if(!code) return res.send("Please fill in some code!");
-  if(!["7200000", "43200000", "86400000"].includes(time) || !time) time = "7200000";
   if(!lang) lang = "text";
   
   //bin create
@@ -54,7 +53,9 @@ r.get("/:id", async (req, res) => {
       res.status(200).render("/app/views/bin", { code: DB.code, lang: DB.lang, id: DB.id });
     } else {
       if(req.url === "/multi") {
-        res.status(200).render("/app/views/multi", { languages: languages });
+        res.status(200).render("/app/views/multi/", { languages: languages });
+      } else if(req.url === "/about") {
+        res.status(200).render("/app/views/about/", { data: false });
       } else {
         res.status(404).send({error_status: 404, error: "page not found", path: req.url}) 
       }
@@ -81,5 +82,7 @@ r.get("/:id", async (req, res) => {
 
 
 
-//export routes
+
+
+//export route(s)
 module.exports = r

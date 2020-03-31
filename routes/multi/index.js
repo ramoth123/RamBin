@@ -7,30 +7,48 @@ const bodyParser = require("body-parser"),
       urlencodedParser = bodyParser.urlencoded({ extended: false });
 const { randomID } = require("ramfish-api");
 const { languages } = require("../../languages/");
+const { HTMLEscape, userAuthentication, sendUserInfo } = require("../../functions/")
+
 
 
 //multibin home
 r.get("/", (req, res) => {
-  res.status(200).render("/app/views/multi/", { languages: languages })
+  res.status(200).render("/app/views/multi", { languages: languages })
 })
 
 
 //multibin create
 r.post("/", urlencodedParser, async (req, res) => {
-  let accessToken = req.cookies["access_token"];
-  let code = req.body.code;
-  let code2 = req.body.code2;
-  let lang = req.body.lang;
-  let time = req.body.time;
+  let id = randomID({ length: 11, input: "random" }).toLowerCase()
+  let { code, code2, lang, lang2 } = req.body
+  console.log(code)
+  console.log(code2)
+  console.log(lang)
+  console.log(lang2)
+  
+  res.send("UNDER DEVELOPMENT")
 
   //middleware
-  if(!code || !code2 || !code && !code2) return res.send("Please fill in some code!");
-  if(!["7200000", "43200000", "86400000"].includes(time) || !time) time = "7200000";
+  /*if(!code || !code2 || !code && !code2) return res.send("Please fill in some code!");
   if(!lang) lang = "text";
+  if(!lang2) lang2 = "text"
 
-  let id = randomID({ length: 11, input: "random" }).toLowerCase()
+  //bin create
+  const newBin = new binModel({
+    "id": id,
+    "code": code,
+    "code2": code2,
+    "lang": lang.toLowerCase(),
+    "lang2": lang2.toLowerCase()
+  })
+  await newBin.save()
   
-  //create multibin here
+  for(let langg in languages) {
+    if(langg.toUpperCase() === lang.toUpperCase()) {
+      let l = languages[langg][0].split("|")[0]      
+      await res.redirect(`/${id}.${l}`)
+    }
+  }*/
 })
 
 
@@ -39,5 +57,5 @@ r.post("/", urlencodedParser, async (req, res) => {
 
 
 
-//export routes
+//export route(s)
 module.exports = r
