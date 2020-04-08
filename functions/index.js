@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 
 module.exports = {
   HTMLEscape(html) {
-    return html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;').replace(/script/g, 'yougay')    
+    return html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;').replace(/script/g, 'yougay').replace(/img/g, 'yougay').replace(/onerror/g, 'yougay')                                         
   },
   
   userAuthentication(req, res, next) {

@@ -17,9 +17,9 @@ const app = express();
 
 
 //middleware
-app.set('trust proxy', 1) //trust first proxy
+app.set('trust proxy', 1)
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'suckmybighugeclocktowerdingdong',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: true }

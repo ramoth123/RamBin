@@ -5,6 +5,7 @@ dependencies:
   cors: 2.8.5
   ejs: 2.7.1
   express: 4.16.4
+  express-rate-limit: 5.1.1
   express-session: 1.17.0
   helmet: 3.22.0
   http: 0.0.0
@@ -226,6 +227,10 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-6SK3MG/Bbhm8MsgyJAylg+ucIOU71/FzyFalcfu5nY19dH8y/z0tBJU0wrNBXD4B27EoQtqPF/9wqH0iYAd04g==
+  /express-rate-limit/5.1.1:
+    dev: false
+    resolution:
+      integrity: sha512-puA1zcCx/quwWUOU6pT6daCt6t7SweD9wKChKhb+KSgFMKRwS81C224hiSAUANw/gnSHiwEhgozM/2ezEBZPeA==
   /express-session/1.17.0:
     dependencies:
       cookie: 0.4.0
@@ -865,6 +870,7 @@ specifiers:
   cors: ^2.8.5
   ejs: ^2.7.1
   express: ^4.16.4
+  express-rate-limit: ^5.1.1
   express-session: ^1.16.1
   helmet: ^3.21.3
   http: ^0.0.0

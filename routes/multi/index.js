@@ -7,7 +7,14 @@ const bodyParser = require("body-parser"),
       urlencodedParser = bodyParser.urlencoded({ extended: false });
 const { randomID } = require("ramfish-api");
 const { languages } = require("../../languages/");
-const { HTMLEscape, userAuthentication, sendUserInfo } = require("../../functions/")
+const { HTMLEscape, userAuthentication } = require("../../functions/")
+
+const RateLimiter = require("express-rate-limit");
+const limiter = RateLimiter({
+  windowMs: 2 * 60 * 1000, //2 minutes
+  max: 10, //max 10 every 5 minutes per IP
+  message: "Too many bins created from this IP, please try again in a few"
+});
 
 
 
@@ -32,12 +39,14 @@ r.post("/", urlencodedParser, async (req, res) => {
   /*if(!code || !code2 || !code && !code2) return res.send("Please fill in some code!");
   if(!lang) lang = "text";
   if(!lang2) lang2 = "text"
+  let parserCode = HTMLEscape(code)
+  let parserCode2 = HTMLEscape(code2)
 
   //bin create
   const newBin = new binModel({
     "id": id,
-    "code": code,
-    "code2": code2,
+    "code": parserCode,
+    "code2": parserCode2,
     "lang": lang.toLowerCase(),
     "lang2": lang2.toLowerCase()
   })

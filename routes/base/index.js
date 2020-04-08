@@ -7,29 +7,36 @@ const bodyParser = require("body-parser"),
       urlencodedParser = bodyParser.urlencoded({ extended: false });
 const { randomID } = require("ramfish-api");
 const { languages } = require("../../languages/");
-const { HTMLEscape, userAuthentication, sendUserInfo } = require("../../functions/")
+const { HTMLEscape, userAuthentication } = require("../../functions/")
 
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 2 * 60 * 1000, //2 minutes
+  max: 10, //limit each IP to 10 requests per ^
+  message: "Too many requests, try again in a few!"
+});
 
 
 //home
-r.get("/", (req, res) => {
+r.get("/", async (req, res) => {
   res.status(200).render("/app/views", { languages: languages });
 });
 
 
 //bin create
-r.post('/', urlencodedParser, async (req, res) => {
+r.post('/', limiter, urlencodedParser, async (req, res) => {
   let id = randomID({ length: 12, input: "random" }).toLowerCase()
   let { code, lang } = req.body
 
   //post middleware
   if(!code) return res.send("Please fill in some code!");
   if(!lang) lang = "text";
+  let parserCode = HTMLEscape(code)
   
   //bin create
   const newBin = new binModel({
     "id": id,
-    "code": code,
+    "code": parserCode,
     "lang": lang.toLowerCase()
   })
   await newBin.save()

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162917245-1"></script>
+    <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-162917245-1');</script>
+    
     <title>RamBin</title>
     <meta charset="UTF-8">
     <meta name="og:title" content="RamBin">
@@ -17,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css"/>
     <link rel="stylesheet" type="text/css" href="styles/nav.css"/>
     <link rel="stylesheet" type="text/css" href="styles/snackbar.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/dd.css"/>
     <script type="text/javascript" src="js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
@@ -52,12 +57,15 @@
         <div id="container">
           <div id="container-inner">
             <div id="navbar">
+              <div style="float: left;" class="navbar-save selected">Language</div>
+              <!--
               <select id="navbarSelect" class="navbar-select" name="lang">
                 <option value="">Language:</option>
                 <% for(let lang in languages) { %>
                   <option value="<%- lang //languages[lang] %>"><%- lang %></option>
                 <% } %>
               </select>
+-->
 
               <button title="save (ctrl + s)" type="submit" class="navbar-save">Save</button>
 
@@ -155,21 +163,34 @@
 
 
     <script>
-
-
-      
-      
-      
-      
-      
-      
-
       $(document).ready(function() {
         $('.navbar-select').select2();
       });
     </script>
+    
+    
+    
+    
+    <center>
+      <div class="select-box-modal">
+        <div class="select-box">
+          <div class="options-container">
+            <% for(let lang in languages) { %>
+              <div class="option">
+                <input type="radio" class="radio">
+                <label for="automobiles"><%- lang %></label>
+              </div>
+            <% } %>
+          </div>
 
+          <div class="search-box">
+            <input type="text" placeholder="Language...">
+          </div>
+        </div>
+      </div>
+    </center>
 
+    <script type="text/javascript" src="js/dd.js"></script>
     
     
     
